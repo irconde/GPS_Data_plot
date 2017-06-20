@@ -54,29 +54,15 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
   setGeometry(400, 250, 542, 390);
   
-  setupDemo(0);
+  setupDemo(19);
   //setupPlayground(ui->customPlot);
-  // 0:  setupQuadraticDemo(ui->customPlot);
-  // 1:  setupSimpleDemo(ui->customPlot);
-  // 2:  setupSincScatterDemo(ui->customPlot);
-  // 3:  setupScatterStyleDemo(ui->customPlot);
-  // 4:  setupScatterPixmapDemo(ui->customPlot);
-  // 5:  setupLineStyleDemo(ui->customPlot);
-  // 6:  setupDateDemo(ui->customPlot);
-  // 7:  setupTextureBrushDemo(ui->customPlot);
-  // 8:  setupMultiAxisDemo(ui->customPlot);
-  // 9:  setupLogarithmicDemo(ui->customPlot);
-  // 10: setupRealtimeDataDemo(ui->customPlot);
-  // 11: setupParametricCurveDemo(ui->customPlot);
-  // 12: setupBarChartDemo(ui->customPlot);
-  // 13: setupStatisticalDemo(ui->customPlot);
-  // 14: setupSimpleItemDemo(ui->customPlot);
-  // 15: setupItemDemo(ui->customPlot);
-  // 16: setupStyledDemo(ui->customPlot);
-  // 17: setupAdvancedAxesDemo(ui->customPlot);
-  // 18: setupColorMapDemo(ui->customPlot);
-  // 19: setupFinancialDemo(ui->customPlot);
-  
+  // 0:  setupScatterPixmapDemo(ui->customPlot); ----------
+  // 1:  setupLineStyleDemo(ui->customPlot);---------------
+  // 2:  setupDateDemo(ui->customPlot);--------------------
+  // 3: setupRealtimeDataDemo(ui->customPlot);------------
+  // 4: setupItemDemo(ui->customPlot);---------------------
+  // 5: setupStyledDemo(ui->customPlot);-------------------
+
   // for making screenshots of the current demo or all demos (for website screenshots):
   //QTimer::singleShot(1500, this, SLOT(allScreenShots()));
   //QTimer::singleShot(4000, this, SLOT(screenShot()));
@@ -86,26 +72,12 @@ void MainWindow::setupDemo(int demoIndex)
 {
   switch (demoIndex)
   {
-    case 0:  setupQuadraticDemo(ui->customPlot); break;
-    case 1:  setupSimpleDemo(ui->customPlot); break;
-    case 2:  setupSincScatterDemo(ui->customPlot); break;
-    case 3:  setupScatterStyleDemo(ui->customPlot); break;
-    case 4:  setupScatterPixmapDemo(ui->customPlot); break;
-    case 5:  setupLineStyleDemo(ui->customPlot); break;
-    case 6:  setupDateDemo(ui->customPlot); break;
-    case 7:  setupTextureBrushDemo(ui->customPlot); break;
-    case 8:  setupMultiAxisDemo(ui->customPlot); break;
-    case 9:  setupLogarithmicDemo(ui->customPlot); break;
-    case 10: setupRealtimeDataDemo(ui->customPlot); break;
-    case 11: setupParametricCurveDemo(ui->customPlot); break;
-    case 12: setupBarChartDemo(ui->customPlot); break;
-    case 13: setupStatisticalDemo(ui->customPlot); break;
-    case 14: setupSimpleItemDemo(ui->customPlot); break;
-    case 15: setupItemDemo(ui->customPlot); break;
-    case 16: setupStyledDemo(ui->customPlot); break;
-    case 17: setupAdvancedAxesDemo(ui->customPlot); break;
-    case 18: setupColorMapDemo(ui->customPlot); break;
-    case 19: setupFinancialDemo(ui->customPlot); break;
+    case 0:  setupScatterPixmapDemo(ui->customPlot); break;
+    case 1:  setupLineStyleDemo(ui->customPlot); break;
+    case 2:  setupDateDemo(ui->customPlot); break;
+    case 3: setupRealtimeDataDemo(ui->customPlot); break;
+    case 4: setupItemDemo(ui->customPlot); break;
+    case 5: setupStyledDemo(ui->customPlot); break;
   }
   setWindowTitle("QCustomPlot: "+demoName);
   statusBar()->clearMessage();
