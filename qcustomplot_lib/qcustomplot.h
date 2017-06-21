@@ -379,6 +379,7 @@ Q_DECLARE_METATYPE(QCP::SelectionType)
 class QCP_LIB_DECL QCPVector2D
 {
 public:
+
   QCPVector2D();
   QCPVector2D(double x, double y);
   QCPVector2D(const QPoint &point);
@@ -415,6 +416,7 @@ public:
   QCPVector2D &operator-=(const QCPVector2D &vector);
   
 private:
+
   // property members:
   double mX, mY;
   

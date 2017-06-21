@@ -10,10 +10,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
            mainwindow.cpp \
-           qcustomplot.cpp
+    qcustomplot_lib/qcustomplot.cpp \
+    gpsdatahandler.cpp
 
 HEADERS  += mainwindow.h \
-            qcustomplot.h
+    qcustomplot_lib/qcustomplot.h \
+    gpsdatahandler.h
 
 FORMS    += mainwindow.ui
 

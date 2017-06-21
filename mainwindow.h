@@ -41,7 +41,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include "qcustomplot.h"
+#include "qcustomplot_lib/qcustomplot.h"
 
 namespace Ui {
 class MainWindow;

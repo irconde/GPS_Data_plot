@@ -46,6 +46,7 @@
 #include <QScreen>
 #include <QMessageBox>
 #include <QMetaEnum>
+#include "gpsdatahandler.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -54,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
   setGeometry(400, 250, 542, 390);
   
+  //qDebug()<< gpsValues.size();
+
+
   setupDemo(0);
 
   // 0:  setupScatterPixmapDemo(ui->customPlot); ----------
