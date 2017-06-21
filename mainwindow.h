@@ -32,10 +32,7 @@
 **                                                                                                         **
 **  In order to see a demo in action, call the respective "setup(...)Demo" function inside the             **
 **  MainWindow constructor. Alternatively you may call setupDemo(i) where i is the index of the demo       **
-**  you want (for those, see MainWindow constructor comments). All other functions here are merely a       **
-**  way to easily create screenshots of all demos for the website. I.e. a timer is set to successively     **
-**  setup all the demos and make a screenshot of the window area and save it in the ./screenshots          **
-**  directory.                                                                                             **
+**  you want (for those, see MainWindow constructor comments).                                             **
 **                                                                                                         **
 *************************************************************************************************************/
 
@@ -44,7 +41,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include "qcustomplot.h" // the header file of QCustomPlot. Don't forget to add it to your project, if you use an IDE, so it gets compiled.
+#include "qcustomplot.h"
 
 namespace Ui {
 class MainWindow;
@@ -59,34 +56,19 @@ public:
   ~MainWindow();
   
   void setupDemo(int demoIndex);
-  void setupQuadraticDemo(QCustomPlot *customPlot);
-  void setupSimpleDemo(QCustomPlot *customPlot);
-  void setupSincScatterDemo(QCustomPlot *customPlot);
   void setupScatterStyleDemo(QCustomPlot *customPlot);
   void setupLineStyleDemo(QCustomPlot *customPlot);
   void setupScatterPixmapDemo(QCustomPlot *customPlot);
   void setupDateDemo(QCustomPlot *customPlot);
-  void setupTextureBrushDemo(QCustomPlot *customPlot);
-  void setupMultiAxisDemo(QCustomPlot *customPlot);
-  void setupLogarithmicDemo(QCustomPlot *customPlot);
   void setupRealtimeDataDemo(QCustomPlot *customPlot);
-  void setupParametricCurveDemo(QCustomPlot *customPlot);
-  void setupBarChartDemo(QCustomPlot *customPlot);
-  void setupStatisticalDemo(QCustomPlot *customPlot);
-  void setupSimpleItemDemo(QCustomPlot *customPlot);
   void setupItemDemo(QCustomPlot *customPlot);
   void setupStyledDemo(QCustomPlot *customPlot);
-  void setupAdvancedAxesDemo(QCustomPlot *customPlot);
-  void setupColorMapDemo(QCustomPlot *customPlot);
-  void setupFinancialDemo(QCustomPlot *customPlot);
-  
-  void setupPlayground(QCustomPlot *customPlot);
+
   
 private slots:
   void realtimeDataSlot();
   void bracketDataSlot();
-  void screenShot();
-  void allScreenShots();
+
   
 private:
   Ui::MainWindow *ui;
