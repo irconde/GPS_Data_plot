@@ -7,11 +7,18 @@
 using namespace std;
 
 
+struct point{
+
+    float p1;
+    float p2;
+    float p3;
+};
+
 class gpsdatahandler{
 
 public:
 
-    const static QVector<float> gpsValues;
+    const static QVector<float> Trackpoints;
 
     // Attributes
 
@@ -23,8 +30,15 @@ public:
 
     gpsdatahandler(void);
     void computeDistAlt(void);
-    QVector<float> getDistanceData(void);
-    QVector<float> getAltitudeData(void);
+
+    inline QVector<float> *getDistanceData(void){ return &this->distanceData;};
+    inline QVector<float> *getAltitudeData(void){ return &this->altitudeData;};
+
+private:
+
+    float computeDistance(point start, point end);
+    void polarToCartesian(point polar, point &cartesian);
+    void printData();
 
 };
 

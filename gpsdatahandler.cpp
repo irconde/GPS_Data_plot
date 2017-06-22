@@ -1,32 +1,120 @@
 #include "gpsdatahandler.h"
+#include <math.h>
+#include <QDebug>
+
+using namespace std;
 
 gpsdatahandler::gpsdatahandler(void){
 
-    this->numGPSValues = gpsdatahandler::gpsValues.size();
-    this->altitudeData.reserve(this->numGPSValues);
-    this->distanceData.reserve(this->numGPSValues);
+    this->numGPSValues = gpsdatahandler::Trackpoints.size();
 
 }
 
 void gpsdatahandler::computeDistAlt(void){
 
-    unsigned int index;
-    float longitude, latitude, altitude;
+    unsigned int indexGPS;
+    float currentDistance;
+    float sumDistance;
+    point cartesianStart, polarStart, cartesianCurrent, polarCurrent;
 
-    index = 0;
+    polarStart.p1 = gpsdatahandler::Trackpoints.at(0);
+    polarStart.p2 = gpsdatahandler::Trackpoints.at(1);
+    polarStart.p3 = gpsdatahandler::Trackpoints.at(2);
 
-    while (i < this->numGPSValues){
+    sumDistance = 0;
 
-        latitude = gpsdatahandler::gpsValues.at(i);
-        longitude = gpsdatahandler::gpsValues.at(i+1);
-        altitude = gpsdatahandler::gpsValues.at(i+2);
+    this->polarToCartesian(polarStart, cartesianStart);
+    this->altitudeData.push_back(polarStart.p3);
+    this->distanceData.push_back(sumDistance);
 
-        i+= 3;
+    indexGPS = 3;
+
+
+    while(indexGPS < this->numGPSValues){
+
+        // We get the next point
+
+        polarCurrent.p1 = gpsdatahandler::Trackpoints.at(indexGPS);
+        polarCurrent.p2 = gpsdatahandler::Trackpoints.at(indexGPS + 1);
+        polarCurrent.p3 = gpsdatahandler::Trackpoints.at(indexGPS + 2);
+
+        // We transform the point into cartesian coords
+
+        this->polarToCartesian(polarCurrent, cartesianCurrent);
+
+        // We compute the distance between start and end points
+
+        currentDistance = this->computeDistance(cartesianStart, cartesianCurrent);
+
+        sumDistance += currentDistance;
+
+        // We save the distance
+
+        this->distanceData.push_back(sumDistance);
+
+        // We save the altitude
+
+        this->altitudeData.push_back(polarCurrent.p3);
+
+        // ----------------------------------------------------------------------
+
+        // Now the start point is the current point
+
+        cartesianStart = cartesianCurrent;
+
+        // We update indexes
+
+        indexGPS += 3;
+    }
+
+    // For debug
+
+    this->printData();
+}
+
+float gpsdatahandler::computeDistance(point start, point end){
+
+    float result = 0.f;
+    result = sqrt(pow((end.p1 - start.p1), 2.0) + pow((end.p2 - start.p2),2.0) + pow((end.p3 - start.p3), 2.0));
+    return result;
+}
+
+void gpsdatahandler::polarToCartesian(point polar, point &cartesian){
+
+    cartesian.p1 = polar.p3 * cos(polar.p1) * sin(polar.p2);
+    cartesian.p2 = polar.p3 * sin(polar.p1);
+    cartesian.p3 = polar.p3 * cos(polar.p1) * cos(polar.p2);
+
+}
+
+void gpsdatahandler::printData(){
+
+    // Print distance values
+
+    qDebug() << "DISTANCE VALUES ------------------------- \n";
+
+    for (int i = 0; i < this->distanceData.size(); i++){
+
+        qDebug() << this->distanceData.at(i) << "\n";
+
+    }
+
+    qDebug() << "----------------------------------------- \n";
+
+
+    // Print altitude values
+
+    qDebug() << "ALTITUDE VALUES ------------------------- \n";
+
+    for (int j = 0; j < this->altitudeData.size(); j++){
+
+        qDebug() << this->altitudeData.at(j) << "\n";
+
     }
 
 }
 
-const QVector<float> gpsdatahandler::gpsValues = {
+const QVector<float> gpsdatahandler::Trackpoints = {
 
            42.322699429, -7.865395565, 129.0, 42.322695246, -7.865395154, 129.0,
            42.322682719, -7.865393926, 129.0, 42.322673024, -7.865393041, 129.1,
