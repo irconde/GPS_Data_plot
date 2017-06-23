@@ -13,38 +13,31 @@ gpsdatahandler::gpsdatahandler(void){
 void gpsdatahandler::computeDistAlt(void){
 
     unsigned int indexGPS;
-    float currentDistance;
-    float sumDistance;
-    point cartesianStart, polarStart, cartesianCurrent, polarCurrent;
+    double currentDistance;
+    double sumDistance;
+    point degStart, degCurrent;
 
-    polarStart.p1 = gpsdatahandler::Trackpoints.at(0);
-    polarStart.p2 = gpsdatahandler::Trackpoints.at(1);
-    polarStart.p3 = gpsdatahandler::Trackpoints.at(2);
+    degStart.latitude = gpsdatahandler::Trackpoints.at(1);
+    degStart.longitude = gpsdatahandler::Trackpoints.at(0);
 
     sumDistance = 0;
 
-    this->polarToCartesian(polarStart, cartesianStart);
-    this->altitudeData.push_back(polarStart.p3);
+    this->altitudeData.push_back(gpsdatahandler::Trackpoints.at(2));
     this->distanceData.push_back(sumDistance);
 
     indexGPS = 3;
-
 
     while(indexGPS < this->numGPSValues){
 
         // We get the next point
 
-        polarCurrent.p1 = gpsdatahandler::Trackpoints.at(indexGPS);
-        polarCurrent.p2 = gpsdatahandler::Trackpoints.at(indexGPS + 1);
-        polarCurrent.p3 = gpsdatahandler::Trackpoints.at(indexGPS + 2);
+        degCurrent.latitude = gpsdatahandler::Trackpoints.at(indexGPS + 1);
+        degCurrent.longitude = gpsdatahandler::Trackpoints.at(indexGPS);
 
-        // We transform the point into cartesian coords
-
-        this->polarToCartesian(polarCurrent, cartesianCurrent);
 
         // We compute the distance between start and end points
 
-        currentDistance = this->computeDistance(cartesianStart, cartesianCurrent);
+        currentDistance = this->computeDistance(degStart, degCurrent);
 
         sumDistance += currentDistance;
 
@@ -54,13 +47,13 @@ void gpsdatahandler::computeDistAlt(void){
 
         // We save the altitude
 
-        this->altitudeData.push_back(polarCurrent.p3);
+        this->altitudeData.push_back(gpsdatahandler::Trackpoints.at(indexGPS + 2));
 
         // ----------------------------------------------------------------------
 
         // Now the start point is the current point
 
-        cartesianStart = cartesianCurrent;
+        degStart = degCurrent;
 
         // We update indexes
 
@@ -69,23 +62,42 @@ void gpsdatahandler::computeDistAlt(void){
 
     // For debug
 
-    this->printData();
+    //this->printData();
 }
 
-float gpsdatahandler::computeDistance(point start, point end){
+point gpsdatahandler::degPointToRad(point dPoint){
 
-    float result = 0.f;
-    result = sqrt(pow((end.p1 - start.p1), 2.0) + pow((end.p2 - start.p2),2.0) + pow((end.p3 - start.p3), 2.0));
-    return result;
+    point rPoint;
+
+    rPoint.latitude = this->degToRad(dPoint.latitude);
+    rPoint.longitude = this->degToRad(dPoint.longitude);
+
+    return rPoint;
 }
 
-void gpsdatahandler::polarToCartesian(point polar, point &cartesian){
+double gpsdatahandler::computeDistance(point dStart, point dEnd){
 
-    cartesian.p1 = polar.p3 * cos(polar.p1) * sin(polar.p2);
-    cartesian.p2 = polar.p3 * sin(polar.p1);
-    cartesian.p3 = polar.p3 * cos(polar.p1) * cos(polar.p2);
+
+    point rStart, rEnd;
+    double u,v;
+    double difLat, difLong;
+
+    rStart.latitude = degToRad(dStart.latitude);
+    rStart.longitude = degToRad(dStart.longitude);
+
+    rEnd.latitude = degToRad(dEnd.latitude);
+    rEnd.longitude = degToRad(dEnd.longitude);
+
+    difLat = rEnd.latitude - rStart.latitude;
+    difLong = rEnd.longitude - rStart.longitude;
+
+    double a = pow(sin(difLat / 2),2) + pow(sin(difLong / 2),2) * cos(rStart.latitude) * cos(rEnd.latitude);
+    double c = 2 * asin(sqrt(a));
+
+    return gpsdatahandler::earthRadius * c;
 
 }
+
 
 void gpsdatahandler::printData(){
 
@@ -113,6 +125,8 @@ void gpsdatahandler::printData(){
     }
 
 }
+
+// Orden de cada tupla: longitud, latitud, altitud
 
 const QVector<float> gpsdatahandler::Trackpoints = {
 

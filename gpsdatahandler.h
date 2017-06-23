@@ -3,15 +3,16 @@
 
 #include <QtCore/qglobal.h>
 #include <QVector>
+#include <math.h>
 
 using namespace std;
 
 
 struct point{
 
-    float p1;
-    float p2;
-    float p3;
+    double latitude;
+    double longitude;
+
 };
 
 class gpsdatahandler{
@@ -23,21 +24,24 @@ public:
     // Attributes
 
     unsigned int numGPSValues;
-    QVector<float> distanceData;
-    QVector<float> altitudeData;
+    QVector<double> distanceData;
+    QVector<double> altitudeData;
 
     // Methods
 
     gpsdatahandler(void);
     void computeDistAlt(void);
-
-    inline QVector<float> *getDistanceData(void){ return &this->distanceData;};
-    inline QVector<float> *getAltitudeData(void){ return &this->altitudeData;};
+    inline QVector<double> *getDistanceData(void){ return &this->distanceData;};
+    inline QVector<double> *getAltitudeData(void){ return &this->altitudeData;};
 
 private:
 
-    float computeDistance(point start, point end);
-    void polarToCartesian(point polar, point &cartesian);
+    const static int earthRadius = 6378000; // Unit: mtrs
+
+    double computeDistance(point dStart, point dEnd);
+    inline double degToRad(double degAngle){ return ((degAngle * M_PI) / 180.0); };
+    point degPointToRad(point dPoint);
+
     void printData();
 
 };

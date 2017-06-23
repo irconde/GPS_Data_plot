@@ -19,7 +19,7 @@ public:
   ~MainWindow();
   
   void setupDemo();
-  void setupDateDemo(QCustomPlot *customPlot);
+  void setupPlot(QCustomPlot *customPlot);
 
   
 private:
